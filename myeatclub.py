@@ -7,6 +7,7 @@ from selenium import webdriver
 
 p = argparse.ArgumentParser()
 p.add_argument('--avoid-tag', default=[], action='append')
+p.add_argument('--require-tag', default=[], action='append')
 p.add_argument('--avoid-restaurant', default=[], action='append')
 p.add_argument('--place-order', action='store_true')
 p.add_argument('--preserve-browser', action='store_true')
@@ -63,6 +64,8 @@ for element in elements:
 
 def filter_menu(menu, num_choices, cfg):
   menu = filter(lambda x: len(set(cfg.avoid_tag).intersection(set(x[3]))) == 0, menu)
+  if cfg.require_tag:
+    menu = filter(lambda x: all(t in x[3] for t in cfg.require_tag), menu)
   menu = filter(lambda x: x[2] not in cfg.avoid_restaurant, menu)
   return sorted(menu, key=lambda x: x[0], reverse=True)[:num_choices]
 
