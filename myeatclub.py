@@ -21,15 +21,15 @@ with open(cfg.cookies_path) as c:
   cookies = simplejson.load(c)
   phantomjs_cookies = []
   for key, val in cookies.items():
-    phantomjs_cookies.append({"name": key, "value": val, "domain": "myeatclub.com"})
+    phantomjs_cookies.append({"name": key, "value": val, "domain": "eatclub.com"})
 
 browser = webdriver.Chrome()
-browser.get('https://myeatclub.com')
+browser.get('https://eatclub.com')
 for cookie in phantomjs_cookies:
   browser.add_cookie(cookie)
 
 # History
-browser.get('https://www.myeatclub.com/orders/history/')
+browser.get('https://www.eatclub.com/orders/history/')
 history_re = r'<td class="item"><a href="(.*)">'
 history = set()
 for match in re.findall(history_re, browser.page_source):
@@ -37,7 +37,7 @@ for match in re.findall(history_re, browser.page_source):
 
 # Current menu
 print "Retrieving menu..."
-browser.get('https://myeatclub.com/menu/' + str(cfg.menu_number))
+browser.get('https://eatclub.com/menu/' + str(cfg.menu_number))
 browser.implicitly_wait(1)
 time.sleep(1)
 
@@ -48,7 +48,7 @@ elements = browser.find_elements_by_class_name('mi-infobox')
 for element in elements:
   item = element.find_element_by_class_name('mi-item-name-link')
   link = item.get_attribute('href')
-  link = link.replace('https://myeatclub.com', '', 1)
+  link = link.replace('https://eatclub.com', '', 1)
   link = link[:link.find('?')].strip('/')
   name = item.text
   rest = element.find_element_by_class_name('mi-restaurant-name')
