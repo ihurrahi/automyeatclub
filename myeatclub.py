@@ -48,7 +48,7 @@ elements = browser.find_elements_by_class_name('mi-infobox')
 for element in elements:
   item = element.find_element_by_class_name('mi-item-name-link')
   link = item.get_attribute('href')
-  link = link.replace('https://eatclub.com', '', 1)
+  link = link.replace('https://www.eatclub.com', '', 1)
   link = link[:link.find('?')].strip('/')
   name = item.text
   rest = element.find_element_by_class_name('mi-restaurant-name')
